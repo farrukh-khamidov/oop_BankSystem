@@ -1,6 +1,7 @@
 package BankServices;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Account {
@@ -22,6 +23,7 @@ public class Account {
 
 		Deposit deposit = new Deposit(date, balance);
 		operations.add(deposit);
+		deposits.add(deposit);
 	}
 
 	@Override
@@ -30,14 +32,32 @@ public class Account {
 	}
 		
 	public List<Operation> getMovements() {
+		operations.sort(new Comparator<Operation>() {
+			@Override
+			public int compare(Operation o1, Operation o2) {
+				return o2.getDate() - o1.getDate();
+			}
+		});
 		return operations;
 	}
 	
 	public List<Deposit> getDeposits() {
+		deposits.sort(new Comparator<Deposit>() {
+			@Override
+			public int compare(Deposit o1, Deposit o2) {
+				return (int) (o1.getValue() - o2.getValue());
+			}
+		});
 		return deposits;
 	}
 
 	public List<Withdrawal> getWithdrawals() {
+		withdrawals.sort(new Comparator<Withdrawal>() {
+			@Override
+			public int compare(Withdrawal o1, Withdrawal o2) {
+				return (int) (o1.getValue() - o2.getValue());
+			}
+		});
 		return withdrawals;
 	}
 

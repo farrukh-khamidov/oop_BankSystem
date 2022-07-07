@@ -1,6 +1,7 @@
 package BankServices;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Bank {
@@ -58,7 +59,11 @@ public class Bank {
 	}
 	
 	public double getTotalDeposit() {
-		return 0.0;
+		double sum = 0;
+		for (Account account : accounts) {
+			sum += account.getBalance();
+		}
+		return sum;
 	}
 	
 	public List<Account> getAccounts() {
@@ -67,14 +72,39 @@ public class Bank {
 	
 
 	public List<Account> getZeroAccounts() {
-		return null;
+		List<Account> zeroAccounts = new ArrayList<>();
+		for (Account account : accounts) {
+			if (account.getBalance() == 0) {
+				zeroAccounts.add(account);
+			}
+		}
+		return zeroAccounts;
 	}
 
 	public List<Account> getAccountsByBalance(double low, double high) {
-		return null;
+		List<Account> accountList = new ArrayList<>();
+		for (Account account : accounts) {
+			if (account.getBalance() >= low && account.getBalance() <= high) {
+				accountList.add(account);
+			}
+		}
+
+		accountList.sort(new Comparator<Account>() {
+			@Override
+			public int compare(Account o1, Account o2) {
+				return (int) (o2.getBalance() - o1.getBalance());
+			}
+		});
+		return accountList;
 	}
 	
 	public long getNumberHigher(double min) {
-		return 0;
+		long count = 0;
+		for (Account account : accounts) {
+			if (account.getBalance() >= min) {
+				count++;
+			}
+		}
+		return count;
 	}
 }
